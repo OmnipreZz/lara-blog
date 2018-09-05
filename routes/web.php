@@ -19,5 +19,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
+//
 Route::get('/index', 'PostController@index')->name('index');
+
+// Route vers formulaire de creation d'article
+Route::get('/post/create', function () {
+    return view('pages.postCreate');
+});
+// Recuperation et envoi vers DB
+Route::post('/post/create', [ 'as'=>'create','uses'=>'PostController@store']);
+//
+Route::get('/post/delete/{id}',[ 'as'=>'toto2','uses'=>'PostController@destroy']);
+
+// Route vers formulaire d'update d'article
+Route::get('/post/update/{id}', function () {
+    return view('pages.postUpdate');
+});
+Route::post('/post/update/{id}', [ 'as'=>'update','uses'=>'PostController@update']);
