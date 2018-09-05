@@ -42,17 +42,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // Post::create([
-        //     'title' => $data['title'],
-        //     'content' => $data['content'],
-        // ]);
-        // return redirect()->route('pages.index');
         $post = new Post;
         $post->title = $request->title;
         $post->content = $request->content;
         $post->author = "author";
-
         $post->save();
 
         return $this->index();
@@ -77,7 +70,11 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = DB::table('posts')
+        ->where("id", "=",$id)
+        ->first();
+
+        return view('pages.postupdate',['post'=>$post]);
     }
 
     /**
@@ -89,9 +86,12 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $posts = DB::table('posts')
-        ->where('id','=',$id)->findOne();
+        DB::table('posts')->where('id',$id )
+        ->update([
+            'title' => $request->title,
+            'content' => $request->content
+        ]);
+        
         return $this->index();
     }
 
@@ -104,7 +104,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
-        DB::table('posts')->where('id','=',$id)->delete();
+        DB::table('posts')
+        ->where('id','=',$id)->delete();
+
         return $this->index();
     }
 }
