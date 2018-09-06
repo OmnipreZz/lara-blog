@@ -11,16 +11,16 @@
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
+}); */
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 //
-Route::get('/index', 'PostController@index')->name('index');
+Route::get('/', 'PostController@index')->name('index');
 
 // Route vers formulaire de creation d'article
 Route::get('/post/create', function () {
@@ -34,3 +34,7 @@ Route::get('/post/delete/{id}',[ 'as'=>'toto2','uses'=>'PostController@destroy']
 // Route vers formulaire d'update d'article
 Route::get('/post/update/{id}',[ 'as'=>'toto3','uses'=>'PostController@edit']);
 Route::post('/post/update/{id}', [ 'as'=>'update','uses'=>'PostController@update']);
+
+// Route vers formulaire de creation de commentaires
+Route::get('/post/show/{id}', 'PostController@show')->name('create-comment');
+Route::post('/comment/create/{id}', [ 'as'=>'comment','uses'=>'CommentController@store']);

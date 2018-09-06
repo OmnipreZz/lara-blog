@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Post;
 
 class PostController extends Controller
@@ -17,7 +18,9 @@ class PostController extends Controller
     public function index()
     {
         //
-        $posts = DB::table('posts')->get();
+        $posts = DB::table('posts')
+        ->orderBy('id', 'desc')
+        ->get();
 
         return view('pages.index', ['posts' => $posts]);
     }
@@ -45,7 +48,10 @@ class PostController extends Controller
         $post = new Post;
         $post->title = $request->title;
         $post->content = $request->content;
-        $post->author = "author";
+        $post->author = Auth::user()->name;
+        $post->image = 'https://picsum.photos/200/300/?random';
+        $post->user_id = Auth::user()->id;
+
         $post->save();
 
         return $this->index();
@@ -59,7 +65,14 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = DB::table('posts')
+        ->where("id", "=",$id)
+        ->first();
+        $comments = DB::table('comments')
+        ->where('post_id', '=', $id)
+        ->orderBy('id', 'desc')
+        ->get();
+        return view('pages.postshow',['post'=>$post, 'comments'=>$comments]);
     }
 
     /**
