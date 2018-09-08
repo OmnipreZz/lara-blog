@@ -4,9 +4,12 @@
 <div class="container">
 @foreach ($posts as $post)
 <div class="card mb-5">
-  <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap">
+  <img class="card-img-top" src="" alt="Card image cap">
   <div class="card-header text-center">
    {{ $post->title }}
+   @foreach($post->tags as $tag)
+   <span class="badge badge-primary">{{$tag->name}}</span>
+   @endforeach
   </div>
   <div class="card-body">
     <p class="card-text">{{ $post->content }}</p>

@@ -17,11 +17,6 @@
                             <div class="col-md-6">
                                 <input id="title" type="text" class="form-control" name="title" value="{{$post->title}}" required autofocus>
 
-                                <!-- @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif -->
                             </div>
                         </div>
 
@@ -31,12 +26,16 @@
                             <div class="col-md-6">
                                 <textarea id="content" class="form-control" name="content" rows="10" required style="resize:none;">{{$post->content}}</textarea>
 
-                                <!-- @if ($errors->has('content'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('content') }}</strong>
-                                    </span>
-                                @endif -->
                             </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="tags"class="col-md-4 col-form-label text-md-right">Tags</label>
+                            <select name="tags[]" class="form-control col-md-6" id="tags" multiple>
+                                @foreach($tags as $k => $tag)
+                                <option value="{{$k}}">{{$tag}}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group row mb-0">

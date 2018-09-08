@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -17,11 +18,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-        $posts = DB::table('posts')
-        ->orderBy('id', 'desc')
-        ->get();
+        
+        // $posts = DB::table('posts')
+        // ->orderBy('id', 'desc')
+        // ->get();
 
+        $posts = Post::with('tags')->get();
         return view('pages.index', ['posts' => $posts]);
     }
 
@@ -32,8 +34,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
-        //return redirect()->route('pages.createPost');
+        $tags = \App\Tag::pluck('name','id');
+        return view('pages.postcreate',compact('tags'));
 
     }
 
@@ -53,6 +55,8 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
 
         $post->save();
+        //$post = Auth::user()->posts()->create($request->all());
+        $post->tags()->attach($request->input('tags'));
 
         return $this->index();
     }
@@ -83,11 +87,13 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $tags = \App\Tag::pluck('name','id');
+
         $post = DB::table('posts')
         ->where("id", "=",$id)
         ->first();
 
-        return view('pages.postupdate',['post'=>$post]);
+        return view('pages.postupdate',['post'=>$post,'tags'=>$tags]);
     }
 
     /**
@@ -99,11 +105,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('posts')->where('id',$id )
-        ->update([
+        $post = Post::with('tags')->where('id',$id );
+
+        $post->update([
             'title' => $request->title,
             'content' => $request->content
         ]);
+
+        // $post->tags()->attach($request->input('tags'));
         
         return $this->index();
     }

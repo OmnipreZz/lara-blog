@@ -23,9 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'PostController@index')->name('index');
 
 // Route vers formulaire de creation d'article
-Route::get('/post/create', function () {
-    return view('pages.postcreate');
-});
+Route::get('/post/create', 'PostController@create')->name('toto99');
 // Recuperation et envoi vers DB
 Route::post('/post/create', [ 'as'=>'create','uses'=>'PostController@store']);
 //

@@ -25,4 +25,16 @@ class Post extends Model
     public function comments(){
         return $this->hasMany('App\Comment');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
+    public function getTagListAttribute()
+    {
+        return $this->tags->pluck('id')->all();
+    }
+
+
 }
