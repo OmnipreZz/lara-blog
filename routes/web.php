@@ -25,14 +25,23 @@ Route::get('/', 'PostController@index')->name('index');
 // Route vers formulaire de creation d'article
 Route::get('/post/create', 'PostController@create')->name('toto99');
 // Recuperation et envoi vers DB
-Route::post('/post/create', [ 'as'=>'create','uses'=>'PostController@store']);
+Route::post('/post/create', 
+	[ 'as'=>'create','uses'=>'PostController@store'])->middleware('auth');
 //
-Route::get('/post/delete/{id}',[ 'as'=>'toto2','uses'=>'PostController@destroy']);
+Route::get('/post/delete/{id}',
+	[ 'as'=>'delete','uses'=>'PostController@destroy'])->middleware('auth');
 
 // Route vers formulaire d'update d'article
-Route::get('/post/update/{id}',[ 'as'=>'toto3','uses'=>'PostController@edit']);
-Route::post('/post/update/{id}', [ 'as'=>'update','uses'=>'PostController@update']);
+Route::get('/post/update/{id}',
+	[ 'as'=>'toto3','uses'=>'PostController@edit'])->middleware('auth');
+Route::post('/post/update/{id}', 
+	[ 'as'=>'update','uses'=>'PostController@update'])->middleware('auth');
 
 // Route vers formulaire de creation de commentaires
-Route::get('/post/show/{id}', 'PostController@show')->name('create-comment');
-Route::post('/comment/create/{id}', [ 'as'=>'comment','uses'=>'CommentController@store']);
+Route::get('/post/show/{id}', 'PostController@show')
+->name('create-comment')
+->middleware('auth');
+
+Route::post('/comment/create/{id}', 
+	[ 'as'=>'comment','uses'=>'CommentController@store'])
+->middleware('auth');

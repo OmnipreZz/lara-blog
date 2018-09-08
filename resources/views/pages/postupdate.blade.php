@@ -8,7 +8,7 @@
                 <div class="card-header">Update your post</div>
 
                 <div class="card-body">
-                    <form method="POST" action="" aria-label="">
+                    <form method="POST" action="/post/update/{{$post->id}}" aria-label="">
                         @csrf
 
                         <div class="form-group row">
