@@ -16,6 +16,9 @@
   </div>
   <div class="card-footer">
     <p class="card-text">Posted by {{ $post->author }} at {{ $post->created_at}}</p>
+    @if ($post->updated_at !=  $post->created_at )
+    <p class="card-text">Updated at {{ $post->updated_at}}</p>
+    @endif
     @auth
     @if ($post->author ==  Auth::user()->name )
     <a href="/post/delete/{{$post->id}}" class="btn btn-danger" role="button">Delete</a>
