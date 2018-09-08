@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-
+<h1>Post</h1>
     <div class="card mb-5">
   <div class="card-header text-center">
    {{ $post->title }}
@@ -13,10 +13,15 @@
   </div>
   <div class="card-footer">
     <p class="card-text">Posted by {{ $post->author }} at {{ $post->created_at}}</p>
+    @auth
+    @if ($post->author ==  Auth::user()->name )
     <a href="/post/delete/{{$post->id}}" class="btn btn-danger" role="button">Delete</a>
     <a href="/post/update/{{$post->id}}" class="btn btn-primary" role="button">Update</a>
+    @endif
+    @endauth
   </div>
     </div>
+@auth
 <div class="container mb-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -33,11 +38,6 @@
                             <div class="col-md-6">
                                 <textarea id="content" class="form-control" name="content" rows="10" required style="resize:none;"></textarea>
 
-                                <!-- @if ($errors->has('content'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('content') }}</strong>
-                                    </span>
-                                @endif -->
                             </div>
                         </div>
 
@@ -55,6 +55,8 @@
         </div>
     </div>
 </div>
+@endauth
+<h1>Comments</h1>
 @foreach ($comments as $comment)
                 <div class="card mb-5">
                         <div class="card-body">
