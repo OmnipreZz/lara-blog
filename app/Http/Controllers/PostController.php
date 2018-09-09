@@ -13,7 +13,6 @@ class PostController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -22,9 +21,31 @@ class PostController extends Controller
         // $posts = DB::table('posts')
         // ->orderBy('id', 'desc')
         // ->get();
+        $tags = \App\Tag::pluck('name','id');
 
         $posts = Post::with('tags')->get();
-        return view('pages.index', ['posts' => $posts]);
+        return view('pages.index', ['posts' => $posts,'tags'=>$tags]);
+    }
+
+    /**
+     * Display a listing of the resource after research by tag
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $tags = \App\Tag::pluck('name','id');
+
+        $allposts = Post::with('tags')->get();
+
+        $posts = [];
+
+        foreach($allposts as $post){
+            if(in_array($request->tags, $post->getTagListAttribute()))
+                array_push($posts, $post);
+        }
+
+        return view('pages.index', ['posts' => $posts,'tags'=>$tags]);
     }
 
     /**
@@ -112,7 +133,7 @@ class PostController extends Controller
             'content' => $request->content
         ]);
 
-        // $post->tags()->attach($request->input('tags'));
+        //$post->tags()->sync($request->input('tags[]'));
         
         return $this->index();
     }

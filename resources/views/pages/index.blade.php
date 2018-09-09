@@ -2,6 +2,40 @@
 
 @section('content')
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Search post by tag</div>
+
+                <div class="card-body">
+                    <form method="POST" action="/post/search" aria-label="">
+                        @csrf
+
+                        <div class="form-group row">
+                            <label for="tags"class="col-md-4 col-form-label text-md-right">Tags</label>
+                            <select name="tags" class="form-control col-md-6" id="tags">
+                                @foreach($tags as $k => $tag)
+                                <option value="{{$k}}">{{$tag}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Search') }}
+                                </button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+  <h1>Posts</h1>
   @foreach ($posts as $post)
   <div class="card mb-5">
     <img class="card-img-top" src="" alt="Card image cap">
