@@ -123,16 +123,24 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::with('tags')->where('id',$id );
+        $post = Post::find($id);
 
         $post->update([
             'title' => $request->title,
             'content' => $request->content
         ]);
 
-        //$post->tags()->sync($request->input('tags[]'));
+        $this->syncTags($post, $request->input('tags', []));
         
         return $this->index();
+    }
+
+    private function syncTags(Post $post, $tags)
+
+    {
+
+      $post->tags()->sync(!$tags ? [] : $tags);
+
     }
 
     /**
