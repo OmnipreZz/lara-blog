@@ -33,7 +33,10 @@
                             <label for="tags"class="col-md-4 col-form-label text-md-right">Tags</label>
                             <select name="tags[]" class="form-control col-md-6" id="tags" multiple>
                                 @foreach($tags as $k => $tag)
-                                <option value="{{$k}}" selected>{{$tag}}</option>
+                                <option value="{{$k}}"
+                                @if (in_array($k,$hisTags)) {{'selected'}}
+                                @endif 
+                                >{{$tag}}</option>
                                 @endforeach
                             </select>
                         </div>

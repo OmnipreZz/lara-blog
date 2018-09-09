@@ -90,9 +90,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = DB::table('posts')
-        ->where("id", "=",$id)
-        ->first();
+        $post = Post::find($id);
         $comments = DB::table('comments')
         ->where('post_id', '=', $id)
         ->orderBy('id', 'desc')
@@ -110,11 +108,10 @@ class PostController extends Controller
     {
         $tags = \App\Tag::pluck('name','id');
 
-        $post = DB::table('posts')
-        ->where("id", "=",$id)
-        ->first();
+        $post = Post::find($id);
+        $hisTags = $post->getTagListAttribute();
 
-        return view('pages.postupdate',['post'=>$post,'tags'=>$tags]);
+        return view('pages.postupdate',['post'=>$post,'tags'=>$tags,'hisTags'=>$hisTags]);
     }
 
     /**
