@@ -24,7 +24,7 @@ Route::get('/', 'PostController@index')->name('index');
 Route::post('/post/search', 'PostController@search')->name('search');
 
 // Route vers formulaire de creation d'article
-Route::get('/post/create', 'PostController@create')->name('toto99');
+Route::get('/post/create', 'PostController@create')->name('toto99')->middleware('auth');
 // Recuperation et envoi vers DB
 Route::post('/post/create', 
 	[ 'as'=>'create','uses'=>'PostController@store'])->middleware('auth');

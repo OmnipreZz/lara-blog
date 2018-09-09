@@ -23,7 +23,7 @@ class PostController extends Controller
         // ->get();
         $tags = \App\Tag::pluck('name','id');
 
-        $posts = Post::with('tags')->get();
+        $posts = Post::with('tags')->orderBy('id', 'desc')->get();
         return view('pages.index', ['posts' => $posts,'tags'=>$tags]);
     }
 
@@ -136,11 +136,8 @@ class PostController extends Controller
     }
 
     private function syncTags(Post $post, $tags)
-
     {
-
       $post->tags()->sync(!$tags ? [] : $tags);
-
     }
 
     /**
